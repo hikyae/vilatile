@@ -106,20 +106,10 @@ Add this to your GlazeWM `config.yaml` and reload the config
 
 ```yaml
 window_rules:
-  - commands: ['set-floating']
-    match:
-      - window_title: { regex: 'vilatile' }
-```
-
-If the title-based rule ever fails to trigger (the title is set shortly
-after the window appears), match by process instead — note this floats
-*every* GVim window:
-
-```yaml
-window_rules:
-  - commands: ['set-floating']
+  - commands: ['set-floating --centered=false']
     match:
       - window_process: { equals: 'gvim' }
+        window_title: { equals: 'vilatile' }
 ```
 
 Without this rule the window stays tiled while GlazeWM is running.

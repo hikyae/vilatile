@@ -61,11 +61,9 @@ func runGvim(cfg *Config, initialText string) error {
 	}
 	defer os.Remove(scriptPath)
 
-	// Expose the size as globals too, so init.vim can re-assert it after the
-	// window manager's floating placement overrides the initial size.
-	sizeCmd := fmt.Sprintf(
-		"let g:vilatile_columns=%d | let g:vilatile_lines=%d | set columns=%d lines=%d",
-		cfg.Columns, cfg.Lines, cfg.Columns, cfg.Lines)
+	// init.vim applies the size from a timer; only pass the values.
+	sizeCmd := fmt.Sprintf("let g:vilatile_columns=%d | let g:vilatile_lines=%d",
+		cfg.Columns, cfg.Lines)
 
 	// -f: prevent gvim from forking on GUI start; otherwise the parent exits
 	// immediately, Wait() returns, and the init script is removed before the

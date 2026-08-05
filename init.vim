@@ -29,7 +29,7 @@ augroup vilatile
   " Start in insert mode only when the buffer is empty: text piped to stdin
   " is there to be reviewed and edited, so begin in normal mode instead.
   autocmd VimEnter * if line('$') == 1 && empty(getline(1)) | startinsert | endif
-  autocmd VimEnter * call timer_start(200, function('s:ReapplySize'), {'repeat': 15})
+  autocmd VimEnter * call timer_start(200, function('s:SetSize'))
 augroup END
 
 function! s:CopyToClipboard()
@@ -46,12 +46,12 @@ function! s:CopyToClipboard()
   echom "Copied to clipboard"
 endfunction
 
-" The window manager's floating placement can resize the window right after
-" startup; keep re-asserting the configured size until things settle.
-function! s:ReapplySize(timer)
+" Set the size after the window manager has floated and resized the window;
+" doing it earlier races with the WM's resize and can hang GVim.
+function! s:SetSize(timer)
   let l:columns = get(g:, 'vilatile_columns', 0)
   let l:lines = get(g:, 'vilatile_lines', 0)
-  if l:columns > 0 && (&columns != l:columns || &lines != l:lines)
+  if l:columns > 0
     let &columns = l:columns
     let &lines = l:lines
   endif

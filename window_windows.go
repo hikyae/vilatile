@@ -177,11 +177,8 @@ func placeWindow(pid int, cfg *Config) error {
 	}
 	debugf("placeWindow: hwnd=0x%x", hwnd)
 
-	// When GlazeWM is not running, float the window ourselves via Win32. When
-	// it is running, the window rule floats it; GlazeWM's floating placement
-	// then overrides the initial size, and init.vim re-asserts columns/lines
-	// shortly after. Moving a floating window with SetWindowPos is the same
-	// operation that is proven safe without GlazeWM.
+	// When GlazeWM is not running, float the window ourselves via Win32;
+	// otherwise its window rule floats it and init.vim's timer sets the size.
 	if !glazeActive {
 		setFloatingStyle(hwnd)
 	}
@@ -195,7 +192,7 @@ func placeWindow(pid int, cfg *Config) error {
 		moveWindow(hwnd, x, y)
 	}
 
-	// Wait for gvim to finish resizing (init.vim sets columns/lines).
+	// Wait for gvim to finish resizing (init.vim's timer sets columns/lines).
 	winW, winH := waitForStableSize(hwnd, 3*time.Second)
 	place(winW, winH)
 

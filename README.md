@@ -117,8 +117,9 @@ Without this rule the window stays tiled while GlazeWM is running.
 Two behaviors compensate for GlazeWM's floating placement, which resizes
 the window right after it floats:
 
-- GVim re-asserts the configured `columns`/`lines` for a few seconds after
-  startup (timer in the embedded init.vim)
+- GVim applies the configured `columns`/`lines` from a timer shortly after
+  startup (in the embedded init.vim); applying it earlier races with
+  GlazeWM's resize and can hang GVim
 - The launcher watches for size changes for a few seconds and re-applies
   the configured position, so `right`/`bottom` anchoring stays correct
 

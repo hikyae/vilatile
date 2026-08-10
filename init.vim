@@ -29,7 +29,7 @@ augroup vilatile
   " Start in insert mode only when the buffer is empty: text piped to stdin
   " is there to be reviewed and edited, so begin in normal mode instead.
   autocmd VimEnter * if line('$') == 1 && empty(getline(1)) | startinsert | endif
-  autocmd VimEnter * call timer_start(200, function('s:SetSize'))
+  autocmd VimEnter * call timer_start(50, function('s:SetSize'), {'repeat': 5})
 augroup END
 
 function! s:CopyToClipboard()

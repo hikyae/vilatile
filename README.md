@@ -5,7 +5,7 @@ The buffer is scratch-only: writing it (`:w`) copies the contents to the
 system clipboard instead of saving a file.
 
 Works on Windows (optionally with [GlazeWM](https://github.com/glzr-io/glazewm))
-and Linux ([Sway](https://swaywm.org/)).
+and Linux ([Sway](https://swaywm.org/) or [Hyprland](https://hyprland.org/)).
 
 ## Features
 
@@ -41,7 +41,7 @@ selected by build tags:
 | `config.go` | Config file (YAML) and defaults |
 | `gvim.go` | Locating gvim, temp files, spawning and waiting |
 | `window.go` | Position spec parsing; documents the per-OS contract |
-| `window_windows.go` / `window_linux.go` | Floating/positioning via Win32+GlazeWM / swaymsg |
+| `window_windows.go` / `window_linux.go` | Floating/positioning via Win32+GlazeWM / swaymsg / hyprctl |
 | `debug.go` | Opt-in debug log (`-debug`) |
 | `init.vim` | Embedded GVim setup (scratch buffer, `:w` → clipboard) |
 
@@ -132,6 +132,13 @@ possible there since it depends on the font).
 
 No setup needed: the launcher floats and positions the window via
 `swaymsg` (`floating enable`, `move position`).
+
+### Hyprland (Linux)
+
+No setup needed: the launcher floats and positions the window via `hyprctl`.
+The focused monitor's scale is accounted for when resolving the configured
+position. When XWayland is available, GVim uses it under Hyprland so its
+configured character size can be applied instead of retaining the tiled size.
 
 ### Plain Windows (no tiling WM)
 

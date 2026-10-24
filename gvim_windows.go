@@ -36,3 +36,5 @@ func gvimFallbackPaths() []string {
 	)
 	return paths
 }
+
+func gvimEnvironment() []string { return nil }

@@ -80,6 +80,7 @@ func runGvim(cfg *Config, initialText string) error {
 	}
 
 	cmd := exec.Command(gvimPath, args...)
+	cmd.Env = gvimEnvironment()
 	if err := cmd.Start(); err != nil {
 		return fmt.Errorf("failed to start gvim: %w", err)
 	}

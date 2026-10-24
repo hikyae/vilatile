@@ -12,7 +12,7 @@ import (
 //		position on the focused monitor. Called right after gvim starts.
 //
 // Windows uses the Win32 API (and detects GlazeWM, which floats the window
-// via a window rule instead); Linux uses swaymsg.
+// via a window rule instead); Linux uses swaymsg or Hyprland's hyprctl.
 
 // resolvePosition converts one axis of a position spec to a screen
 // coordinate. spec is "left"/"top" (start), "right"/"bottom" (end),

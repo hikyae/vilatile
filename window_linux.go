@@ -156,7 +156,9 @@ func placeHyprlandWindow(pid int, cfg *Config) error {
 	if err != nil {
 		return err
 	}
-	if out, err := exec.Command("hyprctl", "dispatch", "setfloating", "address:"+address).CombinedOutput(); err != nil {
+	floatDispatcher := fmt.Sprintf(
+		`hl.dsp.window.float({ action = "on", window = "address:%s" })`, address)
+	if out, err := exec.Command("hyprctl", "dispatch", floatDispatcher).CombinedOutput(); err != nil {
 		return fmt.Errorf("hyprctl setfloating: %w: %s", err, out)
 	}
 
@@ -169,8 +171,9 @@ func placeHyprlandWindow(pid int, cfg *Config) error {
 	y := resolvePosition(cfg.Position.Y, monitor.Y, monitor.Y+monitorHeight, winH)
 	debugf("placeWindow: size=%dx%d pos=(%d,%d)", winW, winH, x, y)
 
-	moveArgs := fmt.Sprintf("exact %d %d,address:%s", x, y, address)
-	if out, err := exec.Command("hyprctl", "dispatch", "movewindowpixel", moveArgs).CombinedOutput(); err != nil {
+	moveDispatcher := fmt.Sprintf(
+		`hl.dsp.window.move({ x = %d, y = %d, window = "address:%s" })`, x, y, address)
+	if out, err := exec.Command("hyprctl", "dispatch", moveDispatcher).CombinedOutput(); err != nil {
 		return fmt.Errorf("hyprctl move: %w: %s", err, out)
 	}
 	debugf("placeWindow: done")
